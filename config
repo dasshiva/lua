@@ -8,7 +8,7 @@
 # Lua uses double for numbers. To change this, uncomment one of the lines below.
 #NUMBER= -DLUA_NUM_TYPE=double
 #NUMBER= -DLUA_NUM_TYPE=float
-NUMBER= -DLUA_NUM_TYPE=long
+NUMBER= -DLUA_NUM_TYPE=double
 # Optionally, you may also want change how numbers are converted to strings,
 # and vice-versa. Look for LUA_NUMBER in llimits.h and in the rest of the code.
 
@@ -29,7 +29,7 @@ NUMBER= -DLUA_NUM_TYPE=long
 
 # You need an ANSI C compiler. gcc is a popular one.
 CC= gcc
-WARN= -ansi -pedantic -Wall
+WARN= -ansi -pedantic -Wall -mno-avx
 
 # On IRIX, cc is a good ANSI compiler.
 #CC= cc
