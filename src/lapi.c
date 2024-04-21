@@ -322,7 +322,7 @@ LUA_API void lua_setglobal (lua_State *L, const char *name) {
 LUA_API void lua_settable (lua_State *L, int index) {
   StkId t = Index(L, index);
   StkId top = L->top;
-  luaV_settable(L, t, top-2);
+  luaV_settable(L, t, top-2, 1);
   L->top = top-2;  /* pop index and value */
 }
 

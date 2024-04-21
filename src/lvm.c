@@ -151,14 +151,14 @@ const TObject *luaV_gettable (lua_State *L, StkId t) {
 /*
 ** Receives table at `t', key at `key' and value at top.
 */
-void luaV_settable (lua_State *L, StkId t, StkId key) {
+void luaV_settable (lua_State *L, StkId t, StkId key, int native) {
   int tg;
   if (ttype(t) == LUA_TTABLE &&  /* `t' is a table? */
       ((tg = hvalue(t)->htag) == LUA_TTABLE ||  /* with default tag? */
         luaT_gettm(L, tg, TM_SETTABLE) == NULL)) 
   { /* or no TM? */
     if (ttype(key) == LUA_TSTRING) 
-	    if (svalue(key)[0] == '_') 
+	    if (svalue(key)[0] == '_' && !native) 
 		    lua_error(L, "Cannot assign to private field");
     *luaH_set(L, hvalue(t), key) = *(L->top-1);  /* do a primitive set */
   }
@@ -493,7 +493,7 @@ StkId luaV_execute (lua_State *L, const Closure *cl, StkId base) {
       case OP_SETTABLE: {
         StkId t = top-GETARG_A(i);
         L->top = top;
-        luaV_settable(L, t, t+1);
+        luaV_settable(L, t, t+1, 0);
         top -= GETARG_B(i);  /* pop values */
         break;
       }

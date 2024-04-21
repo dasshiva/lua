@@ -20,7 +20,7 @@
 int luaV_tonumber (TObject *obj);
 int luaV_tostring (lua_State *L, TObject *obj);
 const TObject *luaV_gettable (lua_State *L, StkId t);
-void luaV_settable (lua_State *L, StkId t, StkId key);
+void luaV_settable (lua_State *L, StkId t, StkId key, int native);
 const TObject *luaV_getglobal (lua_State *L, TString *s);
 void luaV_setglobal (lua_State *L, TString *s);
 StkId luaV_execute (lua_State *L, const Closure *cl, StkId base);
