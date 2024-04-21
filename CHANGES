@@ -1,3 +1,4 @@
 This source of lua 4.0.1 has undergone changes which add/remove feature(s).
 These changes are listed below:
 1. src/llex.c: read_number() -- add support for parsing hexadecimal constants
+2. src/lvm.c: luaV_settable() -- members prefixed with a _(underscore) are assumed to be private and cannot be assigned to except in the table constructor

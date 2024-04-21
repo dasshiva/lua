@@ -155,8 +155,13 @@ void luaV_settable (lua_State *L, StkId t, StkId key) {
   int tg;
   if (ttype(t) == LUA_TTABLE &&  /* `t' is a table? */
       ((tg = hvalue(t)->htag) == LUA_TTABLE ||  /* with default tag? */
-        luaT_gettm(L, tg, TM_SETTABLE) == NULL)) /* or no TM? */
+        luaT_gettm(L, tg, TM_SETTABLE) == NULL)) 
+  { /* or no TM? */
+    if (ttype(key) == LUA_TSTRING) 
+	    if (svalue(key)[0] == '_') 
+		    lua_error(L, "Cannot assign to private field");
     *luaH_set(L, hvalue(t), key) = *(L->top-1);  /* do a primitive set */
+  }
   else {  /* try a `settable' tag method */
     Closure *tm = luaT_gettmbyObj(L, t, TM_SETTABLE);
     if (tm != NULL) {
