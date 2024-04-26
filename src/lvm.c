@@ -147,7 +147,6 @@ const TObject *luaV_gettable (lua_State *L, StkId t) {
   }
 }
 
-
 /*
 ** Receives table at `t', key at `key' and value at top.
 */
@@ -157,6 +156,9 @@ void luaV_settable (lua_State *L, StkId t, StkId key, int native) {
       ((tg = hvalue(t)->htag) == LUA_TTABLE ||  /* with default tag? */
         luaT_gettm(L, tg, TM_SETTABLE) == NULL)) 
   { /* or no TM? */
+    StkId val = luaH_get(L, hvalue(t), key);
+    if ((ttype(val) != LUA_TNIL) && (ttype(val) != ttype(L->top - 1)) )
+	    lua_error(L, "Type mismatch when assigning to field");
     if (ttype(key) == LUA_TSTRING) 
 	    if (svalue(key)[0] == '_' && !native) 
 		    lua_error(L, "Cannot assign to private field");
@@ -205,6 +207,8 @@ void luaV_setglobal (lua_State *L, TString *s) {
   if (tm == NULL) {  /* is there a tag method? */
     if (oldvalue != &luaO_nilobject) {
       /* cast to remove `const' is OK, because `oldvalue' != luaO_nilobject */
+      if (ttype(oldvalue) != ttype(L->top - 1))
+	      lua_error(L, "Type mismatch when assigning to field");
       *(TObject *)oldvalue = *(L->top - 1);
     }
     else {

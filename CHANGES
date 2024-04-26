@@ -3,3 +3,5 @@ These changes are listed below:
 1. src/llex.c: read_number() -- add support for parsing hexadecimal constants
 2. src/lvm.c: luaV_settable() -- members prefixed with a _(underscore) are assumed to be private and cannot be assigned to except in the table constructor
 3. src/lvm.c: luaV_settable() -- native code can assign to any field whether private or not
+4. src/lvm.c: luaV_settable() -- introduced some degree of static typing by checking if type of new value equals that of old value
+5. src/lvm.c: luaV_setglobal() -- same as above
