@@ -209,6 +209,10 @@ void luaV_setglobal (lua_State *L, TString *s) {
       /* cast to remove `const' is OK, because `oldvalue' != luaO_nilobject */
       if (ttype(oldvalue) != ttype(L->top - 1))
 	      lua_error(L, "Type mismatch when assigning to field");
+      if (ttype(oldvalue) == LUA_TFUNCTION) {
+	      if (clvalue(oldvalue)->isC != clvalue(L->top - 1)->isC)
+		      lua_error(L, "Native functions cannot be overriden by lua functions");
+      }
       *(TObject *)oldvalue = *(L->top - 1);
     }
     else {
@@ -485,6 +489,8 @@ StkId luaV_execute (lua_State *L, const Closure *cl, StkId base) {
         break;
       }
       case OP_SETLOCAL: {
+	if ((ttype(base + GETARG_U(i)) != LUA_TNIL) && (ttype(base + GETARG_U(i)) != ttype(top - 1)))
+		lua_error(L, "Type mismatch when assigning to local variable");
         *(base+GETARG_U(i)) = *(--top);
         break;
       }

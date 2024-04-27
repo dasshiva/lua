@@ -953,7 +953,7 @@ static void localstat (LexState *ls) {
 
 static int funcname (LexState *ls, expdesc *v) {
   /* funcname -> NAME [':' NAME | '.' NAME] */
-  int needself = 0;
+  int needself = 0; 
   singlevar(ls, str_checkname(ls), v);
   if (ls->t.token == ':' || ls->t.token == '.') {
     needself = (ls->t.token == ':');

@@ -6,6 +6,9 @@ system = {
 	n = 2
 }
 
-for i=1,getn(system) do
-	print(system['x'])
+f = function (a, b) 
+	local tm = 9
+	tm = 10
 end
+f()
+
