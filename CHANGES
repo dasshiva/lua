@@ -6,3 +6,14 @@ These changes are listed below:
 4. src/lvm.c: luaV_settable() -- introduced some degree of static typing by checking if type of new value equals that of old value
 5. src/lvm.c: luaV_setglobal() -- same as above
 6. src/lvm.c: luaV_execute() -- modified OP_SETGLOBAL to type check before assignment
+7. src/llex.c: lua_lex() --
+ BREAKING CHANGE: $<type_name> can now be used to specify types for variables (this is not mandatory and you can also declare variables in the same way that you would normally)
+ This feature has been added so users can make it obvious what type a variable is of which is more important now that our language is statically typed
+ It makes type mismatch errors on assignment easier to diagnose because just one look at the declaration can tell the user what type the variable is
+ Example: 
+	$number a = 0
+ However as specified above the following declaration of variable a is still valid and does the same as the above:
+	a = 0
+ Note that the parser has no knowledge of type annotations as the lexer simply drops them before passing the input to the parser. They only serve as a guideline to readers of the code
+ and for fixing type mismatch errors. In a sense, they are just glorified comments
+

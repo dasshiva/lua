@@ -281,7 +281,6 @@ static void read_string (LexState *LS, int del, SemInfo *seminfo) {
   seminfo->ts = luaS_newlstr(L, L->Mbuffer+1, l-3);
 }
 
-
 int luaX_lex (LexState *LS, SemInfo *seminfo) {
   for (;;) {
     switch (LS->current) {
@@ -295,8 +294,9 @@ int luaX_lex (LexState *LS, SemInfo *seminfo) {
         continue;
 
       case '$':
-        luaX_error(LS, "unexpected `$' (pragmas are no longer supported)", '$');
-        break;
+	next(LS);
+	readname(LS);
+	continue;
 
       case '-':
         next(LS);
